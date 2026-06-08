@@ -241,6 +241,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ---------- Main ----------
 def main():
+    print(f"TOKEN loaded: {TOKEN[:10]}...")  # Debug line
     if not TOKEN:
         print("Error: TELEGRAM_BOT_TOKEN environment variable not set.")
         return
