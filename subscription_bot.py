@@ -266,8 +266,17 @@ def main():
     # Use webhook for Render (or fallback to polling if PORT not set)
     port = os.environ.get("PORT")
     if port:
-        print(f"Starting bot with webhook on port {port}")
-        app.run_webhook(listen="0.0.0.0", port=int(port))
+        # Render provides the public URL as RENDER_EXTERNAL_URL
+        webhook_url = os.environ.get("RENDER_EXTERNAL_URL")
+        if not webhook_url:
+            print("Error: RENDER_EXTERNAL_URL not set. Cannot start webhook.")
+            return
+        print(f"Starting bot with webhook on {webhook_url}")
+        app.run_webhook(
+            listen="0.0.0.0",
+            port=int(port),
+            webhook_url=webhook_url
+        )
     else:
         print("Starting bot with polling (local development)")
         app.run_polling()
